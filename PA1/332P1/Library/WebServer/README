@@ -1,0 +1,5 @@
+To access:
+http://localhost/cgi-bin/test.pl
+
+To unzip:
+sudo tar -zxvf filename.tar.gz -C /Library/WebServer/

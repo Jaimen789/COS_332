@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Appointments</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		form {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		label {
+			margin-right: 10px;
+		}
+		input[type="submit"] {
+			margin-top: 10px;
+			cursor: pointer;
+		}
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f8f9fa;
+		}
+		h1 {
+			color: #333;
+			text-align: center;
+			margin-top: 20px;
+		}
+		table {
+			border-collapse: collapse;
+			margin-top: 20px;
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		form {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			width: 80%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		label {
+			margin-right: 10px;
+		}
+		input[type="submit"] {
+			margin-top: 10px;
+			cursor: pointer;
+			background-color: #007bff;
+			border: none;
+			color: white;
+			padding: 5px 15px;
+			border-radius: 4px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		input[type="submit"]:hover {
+			background-color: #0056b3;
+		}
+		p {
+			text-align: center;
+			color: #dc3545;
+		}
+		a {
+			display: block;
+			text-align: center;
+			color: #007bff;
+			text-decoration: none;
+			margin-bottom: 20px;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+	<h1>Appointments</h1>
+<form method="POST" action="{{ url_for('add') }}" enctype="multipart/form-data">
+	<label for="date">Date:</label>
+	<input type="date" id="date" name="date" required><br>
+	<label for="time">Time:</label>
+	<input type="time" id="time" name="time" required><br>
+	<label for="description">Description:</label>
+	<input type="text" id="description" name="description" required><br>
+	<label for="file">Image:</label>
+	<input type="file" id="file" name="file"><br>
+	<input type="submit" value="Add Appointment">
+</form>
+
+{% if message %}
+	<p>{{ message }}</p>
+{% endif %}
+
+<table>
+	<tr>
+		<th>Date</th>
+		<th>Time</th>
+		<th>Description</th>
+		<th>Image</th>
+		<th>Delete</th>
+	</tr>
+	{% for appointment in appointments %}
+		<tr>
+			<td>{{ appointment[0] }}</td>
+			<td>{{ appointment[1] }}</td>
+			<td>{{ appointment[2] }}</td>
+			<td>
+				{% if appointment[3] %}
+					<img src="{{ url_for('static', filename=appointment[3]) }}" width="100px">
+				{% else %}
+					No image
+				{% endif %}
+			</td>
+			<td>
+				<form action="/delete/{{ loop.index0 }}" method="post">
+					<input type="submit" value="Delete">
+				</form>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<form action="/search" method="get">
+	<label for="query">Search:</label>
+	<input type="text" id="query" name="query">
+	<input type="submit" value="Search">
+</form>
+
+{% if message %}
+	<a href="{{ url_for('index') }}">Back to Home</a>
+{% endif %}
+</body>
+</html>
